@@ -1,0 +1,8 @@
+.notification {
+    translate: 0px -65px;
+    color: #8aa9d6 !important;
+    background-color: var(--background);
+}
+.notification.active {
+    translate: 0px 0px;
+}

@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Google';
+  src: url("./assets/google1.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("./assets/roboto.ttf") format("ttf");
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --border-color: #c7c7c7;
+  --textfield-color: #c4c4c4;
+  --logo-url: url(./assets/logo_light.svg);
+}
+
+::selection {
+  background: #8aa9d6;
+  color: white;
+}
+
+@keyframes spinlogo {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinlogo {
+  max-width: 50px;
+  background-image: var(--logo-url);
+  animation: rotate 2s linear infinite;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.btn-route {
+  color: #8aa9d6;
+}
+
+:where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-text:not(:disabled):not(.ant-btn-disabled):hover {
+  color: #78a8f0;
+}
+
+.textfield .MuiInputLabel-root {
+  color: var(--textfield-color);
+}
+
+.textfield .MuiInputLabel-root.Mui-focused {
+  color: #8aa9d6;
+}
+
+.textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #8aa9d6;
+}
+
+.logo {
+  background-image: var(--logo-url);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #2c2c2c;
+    --border-color: #181818;
+    --foreground: #ededed;
+    --textfield-color: #ffffff;
+    --logo-url: url(./assets/logo_dark.svg);
+  }
+
+  :where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid:disabled,
+  :where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid.ant-btn-disabled {
+    color: rgb(99, 99, 99);
+  }
+
+  input {
+    color: var(--foreground) !important;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  list-style: none;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: 'Google', 'Roboto', Arial, Helvetica, sans-serif !important;
+  color: inherit;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--border-color);
+}

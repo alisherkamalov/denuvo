@@ -1,0 +1,40 @@
+{
+  "name": "denuvo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.8",
+    "@reduxjs/toolkit": "^2.6.1",
+    "@supabase/supabase-js": "^2.49.1",
+    "@types/lodash": "^4.17.16",
+    "antd": "^5.24.5",
+    "axios": "^1.8.4",
+    "bcryptjs": "^3.0.2",
+    "crypto-js": "^4.2.0",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
+    "next": "15.2.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/crypto-js": "^4.2.2",
+    "@types/lodash.debounce": "^4.0.9",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

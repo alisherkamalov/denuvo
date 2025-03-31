@@ -1,0 +1,11 @@
+.header {
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+}
+:where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid {
+    background: #8aa9d6;
+}
+:where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+    background: #6aa2f5;
+}

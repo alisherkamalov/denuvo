@@ -1,17 +1,19 @@
 "use client";
 import "./styles.css";
 import Image from "next/image";
-import React, { useRef, useState, useCallback } from "react";
+import { io, Socket } from "socket.io-client";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
-import DefaultAvatar from "@/app/assets/defaultavatar.png"
+import DefaultAvatar from "@/app/assets/defaultavatar.png";
+
 interface ChatUser {
-  id: number;
-  avatar: string;
-  last_message: string;
-  name: string;
+  id: string;
+  avatars: string[];
+  nickname: string;
   link: string;
-  time_last_message: string;
-  new_message: number;
+  last_message?: string;
+  time_last_message?: string;
+  new_message?: number;
 }
 
 const LeftBar: React.FC = () => {
@@ -19,6 +21,8 @@ const LeftBar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<ChatUser[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [debugInfo, setDebugInfo] = useState<string>("");
   const scrollChats = useRef<HTMLDivElement | null>(null);
   const isDown = useRef(false);
   const startX = useRef(0);
@@ -26,38 +30,66 @@ const LeftBar: React.FC = () => {
 
   const [chats, setChats] = useState<ChatUser[]>([
     {
-      id: 1,
-      last_message: 'GO BEYOND',
-      name: 'AllMight',
-      avatar: 'https://bleedingcool.com/wp-content/uploads/2020/09/Its_All_Right-900x900.jpg',
-      time_last_message: '19:23',
+      id: "1",
+      last_message: "GO BEYOND",
+      nickname: "AllMight",
+      avatars: [
+        "https://bleedingcool.com/wp-content/uploads/2020/09/Its_All_Right-900x900.jpg",
+      ],
+      time_last_message: "19:23",
       new_message: 1,
-      link: '@AllMight'
+      link: "@AllMight",
     },
   ]);
 
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("userFound", (users: any[]) => {
+      const normalizedUsers = users.map(user => ({
+        id: user._id,
+        avatars: user.avatarUrls || [],
+        nickname: user.nickname,
+        link: `@${user.link}`,
+        last_message: "",
+        time_last_message: "",
+        new_message: 0
+      }));
+      
+      setSearchResults(normalizedUsers);
+      setIsSearching(false);
+    });
+
+  }, [socket]);
+
+  const getLatestAvatar = (avatars: string[]): string => {
+    return avatars.length > 0 ? avatars[avatars.length - 1] : DefaultAvatar.src;
+  };
+
+
+  useEffect(() => {
+    const socketInstance = io("http://localhost:5252");
+    setSocket(socketInstance);
+
+    return () => {
+      socketInstance.disconnect();
+    };
+  }, []);
+
   const searchUsers = useCallback(
-    debounce(async (query: string) => {
-      if (!query.startsWith('@') || query.length < 3) {
+    debounce((query: string) => {
+      if (!query.startsWith("@") || query.length < 2 || !socket) {
         setSearchResults([]);
         return;
       }
-
+      
       setIsSearching(true);
-      const searchTerm = query.substring(1);
-
-      try {
-        
-
-        
-      } catch (err) {
-        console.error('Failed to search:', err);
-      } finally {
-        setIsSearching(false);
-      }
+      const cleanQuery = query.slice(1); 
+      socket.emit("findUser", cleanQuery);
     }, 300),
-    []
+    [socket]
   );
+
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollChats.current) return;
@@ -119,7 +151,6 @@ const LeftBar: React.FC = () => {
               <path d="m21 21-4.3-4.3" />
             </svg>
           )}
-
           <input
             placeholder={!isFocused ? "Поиск" : ""}
             className="searchinput mr-4 flex items-center w-62 h-10 bg-[#c7c7c740] focus:bg-[#c7c7c780] rounded-full caret-[#8aa9d6] pl-7 transition-all"
@@ -135,30 +166,33 @@ const LeftBar: React.FC = () => {
         </div>
       </div>
 
-      {(
+      {searchQuery && (
         <div className="opensearchinput w-full h-[calc(100dvh-60px)] overflow-y-auto">
           {isSearching ? (
             <div className="loadingtext flex justify-center p-4">Загрузка...</div>
           ) : searchResults.length > 0 ? (
             searchResults.map((user) => (
-              <div key={user.id} className="chat flex transition-all w-full h-20 hover:bg-[#c7c7c740] active:bg-[#c7c7c780] items-center">
+              <div
+                key={`search-${user.id}`}
+                className="chat flex transition-all w-full h-20 hover:bg-[#c7c7c740] active:bg-[#c7c7c780] items-center"
+              >
                 <Image
-                  src={user.avatar || DefaultAvatar}
-                  alt={user.name}
-                  key={user.avatar}
+                  src={getLatestAvatar(user.avatars)}
+                  alt={`Аватар ${user.nickname}`}
+                  width={60}
+                  height={60}
                   className="avatar max-w-15 rounded-full ml-3 mr-3"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = DefaultAvatar.src;
+                  }}
                 />
                 <div className="infouser flex flex-col w-full h-20 justify-center">
-                    <span className="usernametext">
-                      {user.name}
-                    </span>
-                    <span className="userlinktext">
-                    {user.link}
-                    </span>
+                  <span className="usernametext">{user.nickname}</span>
+                  <span className="userlinktext">{user.link}</span>
                 </div>
               </div>
             ))
-          ) : searchQuery.startsWith('@') && searchQuery.length > 1 ? (
+          ) : searchQuery.startsWith("@") && searchQuery.length > 1 ? (
             <div className="notfoundtext flex justify-center p-4">Ничего не найдено</div>
           ) : null}
         </div>
@@ -173,30 +207,32 @@ const LeftBar: React.FC = () => {
         className="chats flex-col max-w-81 overflow-y-auto h-[calc(100dvh-60px)] custom-scroll"
       >
         {chats.map((chat) => (
-          <div key={chat.id} className="chat flex transition-all w-full h-20 hover:bg-[#c7c7c740] active:bg-[#c7c7c780] items-center">
+          <div
+            key={`chat-${chat.id}`}
+            className="chat flex transition-all w-full h-20 hover:bg-[#c7c7c740] active:bg-[#c7c7c780] items-center"
+          >
             <Image
               width={60}
               height={60}
-              src={chat.avatar}
-              alt={chat.name}
-              key={chat.avatar}
+              src={getLatestAvatar(chat.avatars)}
+              alt={`Аватар ${chat.nickname}`}
               className="avatar max-w-15 rounded-full ml-3 mr-3"
             />
             <div className="infouser flex-col flex flex-3 h-20 justify-center">
               <div className="usernamecont">
-                <span className="usernametext text-gray-900 dark:text-white">{chat.name}</span>
+                <span className="usernametext text-gray-900 dark:text-white">{chat.nickname}</span>
               </div>
               <div className="messagecont">
                 <span className="messagetext">{chat.last_message}</span>
               </div>
             </div>
             <div className="timecont flex-col flex flex-1 h-20 items-end mr-4 justify-center gap-1">
-              <span className="timetext">{chat.time_last_message}</span>
-              {chat.new_message > 0 && (
+              <span className="timetext">{chat.time_last_message || ''}</span>
+              {(chat.new_message && chat.new_message > 0) ? (
                 <div className="circlenewmessage rounded-full w-5 h-5 bg-[#8aa9d6] flex justify-center items-center">
                   {chat.new_message}
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         ))}

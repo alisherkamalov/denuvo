@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
         hostname: "supabase.co",
       },
     ],
+    domains: [
+      'res.cloudinary.com',
+    ]
   },
 };
 

@@ -37,6 +37,8 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$socket$2e$io$2d$client$2f$build$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/node_modules/socket.io-client/build/esm/index.js [app-client] (ecmascript) <module evaluation>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$socket$2e$io$2d$client$2f$build$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/socket.io-client/build/esm/index.js [app-client] (ecmascript) <locals>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lodash$2f$debounce$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/lodash/debounce.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png$2e$mjs__$7b$__IMAGE__$3d3e$__$225b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png__$28$static__in__ecmascript$2922$__$7d$__$5b$app$2d$client$5d$__$28$structured__image__object$2c$__ecmascript$29$__ = __turbopack_context__.i('[project]/src/app/assets/defaultavatar.png.mjs { IMAGE => "[project]/src/app/assets/defaultavatar.png (static in ecmascript)" } [app-client] (structured image object, ecmascript)');
@@ -48,42 +50,83 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+;
 const LeftBar = ()=>{
     _s();
     const [isFocused, setIsFocused] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [searchQuery, setSearchQuery] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [searchResults, setSearchResults] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [isSearching, setIsSearching] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [socket, setSocket] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [debugInfo, setDebugInfo] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const scrollChats = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const isDown = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
     const startX = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(0);
     const scrollLeft = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(0);
     const [chats, setChats] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
         {
-            id: 1,
-            last_message: 'GO BEYOND',
-            name: 'AllMight',
-            avatar: 'https://bleedingcool.com/wp-content/uploads/2020/09/Its_All_Right-900x900.jpg',
-            time_last_message: '19:23',
+            id: "1",
+            last_message: "GO BEYOND",
+            nickname: "AllMight",
+            avatars: [
+                "https://bleedingcool.com/wp-content/uploads/2020/09/Its_All_Right-900x900.jpg"
+            ],
+            time_last_message: "19:23",
             new_message: 1,
-            link: '@AllMight'
+            link: "@AllMight"
         }
     ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "LeftBar.useEffect": ()=>{
+            if (!socket) return;
+            socket.on("userFound", {
+                "LeftBar.useEffect": (users)=>{
+                    const normalizedUsers = users.map({
+                        "LeftBar.useEffect.normalizedUsers": (user)=>({
+                                id: user._id,
+                                avatars: user.avatarUrls || [],
+                                nickname: user.nickname,
+                                link: `@${user.link}`,
+                                last_message: "",
+                                time_last_message: "",
+                                new_message: 0
+                            })
+                    }["LeftBar.useEffect.normalizedUsers"]);
+                    setSearchResults(normalizedUsers);
+                    setIsSearching(false);
+                }
+            }["LeftBar.useEffect"]);
+        }
+    }["LeftBar.useEffect"], [
+        socket
+    ]);
+    const getLatestAvatar = (avatars)=>{
+        return avatars.length > 0 ? avatars[avatars.length - 1] : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png$2e$mjs__$7b$__IMAGE__$3d3e$__$225b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png__$28$static__in__ecmascript$2922$__$7d$__$5b$app$2d$client$5d$__$28$structured__image__object$2c$__ecmascript$29$__["default"].src;
+    };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "LeftBar.useEffect": ()=>{
+            const socketInstance = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$socket$2e$io$2d$client$2f$build$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["io"])("http://localhost:5252");
+            setSocket(socketInstance);
+            return ({
+                "LeftBar.useEffect": ()=>{
+                    socketInstance.disconnect();
+                }
+            })["LeftBar.useEffect"];
+        }
+    }["LeftBar.useEffect"], []);
     const searchUsers = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lodash$2f$debounce$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])({
-        "LeftBar.useCallback[searchUsers]": async (query)=>{
-            if (!query.startsWith('@') || query.length < 3) {
+        "LeftBar.useCallback[searchUsers]": (query)=>{
+            if (!query.startsWith("@") || query.length < 2 || !socket) {
                 setSearchResults([]);
                 return;
             }
             setIsSearching(true);
-            const searchTerm = query.substring(1);
-            try {} catch (err) {
-                console.error('Failed to search:', err);
-            } finally{
-                setIsSearching(false);
-            }
+            const cleanQuery = query.slice(1);
+            socket.emit("findUser", cleanQuery);
         }
-    }["LeftBar.useCallback[searchUsers]"], 300), []);
+    }["LeftBar.useCallback[searchUsers]"], 300), [
+        socket
+    ]);
     const handleMouseDown = (e)=>{
         if (!scrollChats.current) return;
         isDown.current = true;
@@ -128,7 +171,7 @@ const LeftBar = ()=>{
                                     y2: "12"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                    lineNumber: 99,
+                                    lineNumber: 131,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -138,7 +181,7 @@ const LeftBar = ()=>{
                                     y2: "6"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                    lineNumber: 100,
+                                    lineNumber: 132,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -148,18 +191,18 @@ const LeftBar = ()=>{
                                     y2: "18"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                    lineNumber: 101,
+                                    lineNumber: 133,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                            lineNumber: 88,
+                            lineNumber: 120,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 87,
+                        lineNumber: 119,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -183,20 +226,20 @@ const LeftBar = ()=>{
                                         r: "8"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 118,
+                                        lineNumber: 150,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                         d: "m21 21-4.3-4.3"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 119,
+                                        lineNumber: 151,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 106,
+                                lineNumber: 138,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -212,40 +255,45 @@ const LeftBar = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 123,
+                                lineNumber: 154,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 104,
+                        lineNumber: 136,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                lineNumber: 86,
+                lineNumber: 118,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            searchQuery && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "opensearchinput w-full h-[calc(100dvh-60px)] overflow-y-auto",
                 children: isSearching ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "loadingtext flex justify-center p-4",
                     children: "Загрузка..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                    lineNumber: 141,
+                    lineNumber: 172,
                     columnNumber: 13
                 }, this) : searchResults.length > 0 ? searchResults.map((user)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "chat flex transition-all w-full h-20 hover:bg-[#c7c7c740] active:bg-[#c7c7c780] items-center",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                src: user.avatar || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png$2e$mjs__$7b$__IMAGE__$3d3e$__$225b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png__$28$static__in__ecmascript$2922$__$7d$__$5b$app$2d$client$5d$__$28$structured__image__object$2c$__ecmascript$29$__["default"],
-                                alt: user.name,
-                                className: "avatar max-w-15 rounded-full ml-3 mr-3"
-                            }, user.avatar, false, {
+                                src: getLatestAvatar(user.avatars),
+                                alt: `Аватар ${user.nickname}`,
+                                width: 60,
+                                height: 60,
+                                className: "avatar max-w-15 rounded-full ml-3 mr-3",
+                                onError: (e)=>{
+                                    e.target.src = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png$2e$mjs__$7b$__IMAGE__$3d3e$__$225b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png__$28$static__in__ecmascript$2922$__$7d$__$5b$app$2d$client$5d$__$28$structured__image__object$2c$__ecmascript$29$__["default"].src;
+                                }
+                            }, void 0, false, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 145,
+                                lineNumber: 179,
                                 columnNumber: 17
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -253,42 +301,42 @@ const LeftBar = ()=>{
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "usernametext",
-                                        children: user.name
+                                        children: user.nickname
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 152,
-                                        columnNumber: 21
+                                        lineNumber: 190,
+                                        columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "userlinktext",
                                         children: user.link
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 155,
-                                        columnNumber: 21
+                                        lineNumber: 191,
+                                        columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 151,
+                                lineNumber: 189,
                                 columnNumber: 17
                             }, this)
                         ]
-                    }, user.id, true, {
+                    }, `search-${user.id}`, true, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 144,
+                        lineNumber: 175,
                         columnNumber: 15
-                    }, this)) : searchQuery.startsWith('@') && searchQuery.length > 1 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    }, this)) : searchQuery.startsWith("@") && searchQuery.length > 1 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "notfoundtext flex justify-center p-4",
                     children: "Ничего не найдено"
                 }, void 0, false, {
                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                    lineNumber: 162,
+                    lineNumber: 196,
                     columnNumber: 13
                 }, this) : null
             }, void 0, false, {
                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                lineNumber: 139,
+                lineNumber: 170,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -304,12 +352,12 @@ const LeftBar = ()=>{
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 width: 60,
                                 height: 60,
-                                src: chat.avatar,
-                                alt: chat.name,
+                                src: getLatestAvatar(chat.avatars),
+                                alt: `Аватар ${chat.nickname}`,
                                 className: "avatar max-w-15 rounded-full ml-3 mr-3"
-                            }, chat.avatar, false, {
+                            }, void 0, false, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 177,
+                                lineNumber: 214,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -319,15 +367,15 @@ const LeftBar = ()=>{
                                         className: "usernamecont",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             className: "usernametext text-gray-900 dark:text-white",
-                                            children: chat.name
+                                            children: chat.nickname
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                            lineNumber: 187,
+                                            lineNumber: 223,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 186,
+                                        lineNumber: 222,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -337,18 +385,18 @@ const LeftBar = ()=>{
                                             children: chat.last_message
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                            lineNumber: 190,
+                                            lineNumber: 226,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 189,
+                                        lineNumber: 225,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 185,
+                                lineNumber: 221,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -356,45 +404,45 @@ const LeftBar = ()=>{
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "timetext",
-                                        children: chat.time_last_message
+                                        children: chat.time_last_message || ''
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 194,
+                                        lineNumber: 230,
                                         columnNumber: 15
                                     }, this),
-                                    chat.new_message > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    chat.new_message && chat.new_message > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "circlenewmessage rounded-full w-5 h-5 bg-[#8aa9d6] flex justify-center items-center",
                                         children: chat.new_message
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 196,
+                                        lineNumber: 232,
                                         columnNumber: 17
-                                    }, this)
+                                    }, this) : null
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 193,
+                                lineNumber: 229,
                                 columnNumber: 13
                             }, this)
                         ]
-                    }, chat.id, true, {
+                    }, `chat-${chat.id}`, true, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 176,
+                        lineNumber: 210,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                lineNumber: 167,
+                lineNumber: 201,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-        lineNumber: 85,
+        lineNumber: 117,
         columnNumber: 5
     }, this);
 };
-_s(LeftBar, "SiCTx3geAqi1Ox8aaosS4e88XGs=");
+_s(LeftBar, "FtxOtx73qrx+1XIJ3X1czkhJe6E=");
 _c = LeftBar;
 const __TURBOPACK__default__export__ = LeftBar;
 var _c;

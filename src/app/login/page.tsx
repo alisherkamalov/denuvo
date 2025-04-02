@@ -7,25 +7,32 @@ import { useRouter } from 'next/navigation';
 import Notification from "../components/notification/notification";
 import { useDispatch } from "react-redux";
 import { setActive } from "../store";
-import React, { useState } from 'react';
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import axios from "axios";
+import React, { useState, useEffect } from 'react';
 
 const LoginPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
-    const [form, setForm] = useState({ email: '', password: '' });
+    const [form, setForm] = useState({ link: '', password: '' });
     const [error, setError] = useState("");
     const [notification, setNotification] = useState<string>("");
-    const [errors, setErrors] = useState({ email: false, password: false });
+    const [errors, setErrors] = useState({ link: false, password: false });
     const router = useRouter();
     const dispatch = useDispatch();
-
+    const getFingerprint = async () => {
+            const fp = await FingerprintJS.load();
+            const result = await fp.get();
+          
+            return result.visitorId;
+          }
+    
     const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [field]: event.target.value });
         setErrors({ ...errors, [field]: false });
     };
-
     const handleSubmit = async () => {
         const newErrors = {
-            email: !form.email.trim(),
+            link: !form.link.trim(),
             password: !form.password.trim(),
         };
         setErrors(newErrors);
@@ -40,37 +47,32 @@ const LoginPage: React.FC = () => {
     const handleAuthorization = async () => {
         setError("");
         setNotification("");
-        
-
-        
-        //if (!user.email_confirmed_at) {
-            //dispatch(setActive("notification"));
-            //setError("Email не подтвержден");
-            //setNotification("Подтвердите email перед входом");
-            //setTimeout(() => dispatch(setActive(null)), 2000);
-            //return;
-        //}
-
-        
-        
-        //if (sessionError || !session.session) {
-            //dispatch(setActive("notification"));
-            //setError("Ошибка входа");
-            //setNotification("Неверный email или пароль");
-            //setTimeout(() => dispatch(setActive(null)), 2000);
-            //return;
-        //}
-        
-
-        //document.cookie = `token=${session.session.access_token}; path=/; max-age=86400; Secure; HttpOnly`;
-        //localStorage.setItem("user_email", form.email);
-
-        dispatch(setActive("notification"));
-        setNotification("Вы успешно авторизовались!");
-        setTimeout(() => {
-            dispatch(setActive(null));
-            router.push("/");
-        }, 2000);
+        const ipres = await fetch('https://api64.ipify.org?format=json');
+        const data = await ipres.json();
+        const fingerprint = await getFingerprint();
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}/login`, {
+                link: form.link.replace(/@\s?/, ""),
+                password: form.password,
+                fingerprint: fingerprint,
+                ip: data.ip
+            });
+            setNotification(response.data.message);
+            window.localStorage.setItem("ip", response.data.ip);
+            window.localStorage.setItem("fingerprint", response.data.fingerprint);
+            window.localStorage.setItem("token", response.data.token);
+            console.log(response.data.ip, response.data.token, response.data.fingerprint)
+    
+            dispatch(setActive("notification"));
+            setTimeout(() => { 
+                dispatch(setActive(null));
+                router.push("/");
+            }, 2000);
+        }
+        catch(e: any) {
+            setNotification(e.response?.data?.message || e.message || "Произошла ошибка");
+            dispatch(setActive("notification"));
+        }
     };
 
 
@@ -85,12 +87,12 @@ const LoginPage: React.FC = () => {
                 <div className="content w-full flex flex-col gap-5 pl-3 pr-3">
                     <TextField
                         size="small"
-                        label="Email"
+                        label="@Уникальное имя"
                         variant="outlined"
                         className="textfield"
-                        error={errors.email}
-                        helperText={errors.email ? 'Заполните поле' : ''}
-                        onChange={handleChange('email')}
+                        error={errors.link}
+                        helperText={errors.link ? 'Заполните поле' : ''}
+                        onChange={handleChange('link')}
                     />
                     <TextField
                         size="small"

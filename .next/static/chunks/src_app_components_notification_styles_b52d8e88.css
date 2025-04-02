@@ -1,0 +1,12 @@
+/* [project]/src/app/components/notification/styles.css [app-client] (css) */
+.notification {
+  translate: 0 -65px;
+  background-color: var(--background);
+  color: #8aa9d6 !important;
+}
+
+.notification.active {
+  translate: 0;
+}
+
+/*# sourceMappingURL=src_app_components_notification_styles_b52d8e88.css.map*/

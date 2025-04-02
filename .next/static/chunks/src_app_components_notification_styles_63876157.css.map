@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///home/vboxuser/denuvo/src/app/components/notification/styles.css"],"sourcesContent":[".notification {\n    translate: 0px -65px;\n    color: #8aa9d6 !important;\n    background-color: var(--background);\n}\n.notification.active {\n    translate: 0px 0px;\n}"],"names":[],"mappings":"AAAA;;;;;;AAKA","debugId":null}}]
+}

@@ -1,0 +1,16 @@
+/* [project]/src/app/login/styles.css [app-client] (css) */
+.header {
+  color: #fff;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+:where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid {
+  background: #8aa9d6;
+}
+
+:where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+  background: #6aa2f5;
+}
+
+/*# sourceMappingURL=src_app_login_styles_b52d8e88.css.map*/

@@ -1,33 +1,25 @@
 "use client";
-import "./styles.css";
-import '@ant-design/v5-patch-for-react-19';
+import axios from "axios";
 import { TextField } from "@mui/material";
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import Notification from "../components/notification/notification";
 import { useDispatch } from "react-redux";
 import { setActive } from "../store";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from "react";
+import Notification from "../components/notification/notification";
 
 
 const RegisterPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({ nickname: '', link: '', password: '' });
     const [errors, setErrors] = useState({ nickname: false, link: false, password: false });
-    const [nickname, setNickname] = useState("");
-    const [link, setLink] = useState("");
-    const [notification, setNotification] = useState<string>("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");;
+    const [notification, setNotification] = useState("");
     const router = useRouter();
     const dispatch = useDispatch();
     const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [field]: event.target.value });
         setErrors({ ...errors, [field]: false });
     };
-
-
 
     const handleSubmit = async () => {
         const newErrors = {
@@ -45,41 +37,18 @@ const RegisterPage: React.FC = () => {
     };
 
     const handleRegister = async () => {
-        setError("");
-
-        axios.post('https://denuvobackend.vercel.app/register', {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}/register`, {
             nickname: form.nickname,
-            link: form.link,
+            link: form.link.replace(/@\s?/, ""),
             password: form.password
-          })
-          .then(function (response) {
-            console.log(response);
-            dispatch(setActive("notification"));
-            setNotification("Вы успешно зарегистрировались");
-            setTimeout(() => dispatch(setActive(null)), 2000);
-            return;
-          })
-          .catch(function (error) {
-            console.log(error); 
-            dispatch(setActive("notification"));
-            setNotification("Ошибка регистрации");
-            console.error("Ошибка регистрации:", error.message);
-            setError(error.message);
-            setTimeout(() => dispatch(setActive(null)), 2000);
-            return;
-          });
-        
-
-        
-
-
-
+        });
+        setNotification(response.data.message);
         dispatch(setActive("notification"));
-        setNotification("Подтвердите свою почту, мы подождем!");
+        setTimeout(() => {
+            dispatch(setActive(null));
+            router.push('/login');
+        }, 2000);
+
     };
 
     return (
@@ -102,7 +71,7 @@ const RegisterPage: React.FC = () => {
                     />
                     <TextField
                         size="small"
-                        label="@Линк"
+                        label="@Уникальное имя"
                         variant="outlined"
                         className="textfield"
                         error={errors.link}

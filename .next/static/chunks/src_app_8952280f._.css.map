@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///home/vboxuser/denuvo/src/app/login/styles.css"],"sourcesContent":[".header {\n    color: white;\n    font-weight: 500;\n    font-size: 20px;\n}\n:where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid {\n    background: #8aa9d6;\n}\n:where(.css-dev-only-do-not-override-1a3rktk).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {\n    background: #6aa2f5;\n}"],"names":[],"mappings":"AAAA;;;;;;AAKA;;;;AAGA","debugId":null}},
+    {"offset": {"line": 17, "column": 0}, "map": {"version":3,"sources":["file:///home/vboxuser/denuvo/src/app/components/notification/styles.css"],"sourcesContent":[".notification {\n    translate: 0px -65px;\n    color: #8aa9d6 !important;\n    background-color: var(--background);\n}\n.notification.active {\n    translate: 0px 0px;\n}"],"names":[],"mappings":"AAAA;;;;;;AAKA","debugId":null}}]
+}

@@ -17,7 +17,7 @@ export default function HomePage() {
     const checkAuth = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}/me`, 
+          `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/me`, 
           {
             params: { fingerprint, ip },
             headers: { Authorization: `Bearer ${token}` }

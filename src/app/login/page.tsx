@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
         const data = await ipres.json();
         const fingerprint = await getFingerprint();
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}/login`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/login`, {
                 link: form.link.replace(/@\s?/, ""),
                 password: form.password,
                 fingerprint: fingerprint,

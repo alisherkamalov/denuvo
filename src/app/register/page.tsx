@@ -37,7 +37,7 @@ const RegisterPage: React.FC = () => {
     };
 
     const handleRegister = async () => {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}/register`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/register`, {
             nickname: form.nickname,
             link: form.link.replace(/@\s?/, ""),
             password: form.password

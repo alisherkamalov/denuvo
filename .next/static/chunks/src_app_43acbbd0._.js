@@ -63,24 +63,47 @@ const LeftBar = ()=>{
     const isDown = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
     const startX = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(0);
     const scrollLeft = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(0);
-    const [chats, setChats] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
-        {
-            id: "1",
-            last_message: "GO BEYOND",
-            nickname: "AllMight",
-            avatars: [
-                "https://bleedingcool.com/wp-content/uploads/2020/09/Its_All_Right-900x900.jpg"
-            ],
-            time_last_message: "19:23",
-            new_message: 1,
-            link: "@AllMight"
+    const senderInfo = JSON.parse(localStorage.getItem("userinfo") || "{}");
+    const senderId = senderInfo?._id || null;
+    const [chats, setChats] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "LeftBar.useEffect": ()=>{
+            const socketInstance = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$socket$2e$io$2d$client$2f$build$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["io"])("https://denuvobackend.up.railway.app");
+            setSocket(socketInstance);
+            console.log("Socket initialized:", socketInstance.id);
+            socketInstance.on("connect", {
+                "LeftBar.useEffect": ()=>{
+                    console.log("Connected to server:", socketInstance.id);
+                    if (senderId) {
+                        socketInstance.emit("GetUserChats", senderId);
+                    }
+                }
+            }["LeftBar.useEffect"]);
+            socketInstance.on("disconnect", {
+                "LeftBar.useEffect": ()=>{
+                    console.log("Disconnected from server");
+                }
+            }["LeftBar.useEffect"]);
+            socketInstance.on("connect_error", {
+                "LeftBar.useEffect": (error)=>{
+                    console.log("Connection error:", error.message);
+                }
+            }["LeftBar.useEffect"]);
+            return ({
+                "LeftBar.useEffect": ()=>{
+                    socketInstance.disconnect();
+                }
+            })["LeftBar.useEffect"];
         }
+    }["LeftBar.useEffect"], [
+        senderId
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "LeftBar.useEffect": ()=>{
             if (!socket) return;
             socket.on("userFound", {
                 "LeftBar.useEffect": (users)=>{
+                    console.log("Received userFound:", users);
                     const normalizedUsers = users.map({
                         "LeftBar.useEffect.normalizedUsers": (user)=>({
                                 id: user._id,
@@ -96,6 +119,67 @@ const LeftBar = ()=>{
                     setIsSearching(false);
                 }
             }["LeftBar.useEffect"]);
+            socket.on("CreateChat", {
+                "LeftBar.useEffect": (data)=>{
+                    console.log("Received CreateChat:", data);
+                    const newChat = {
+                        id: data.chatId,
+                        nickname: data.nickname,
+                        avatars: data.avatars,
+                        link: data.link,
+                        last_message: "",
+                        time_last_message: "",
+                        new_message: 0
+                    };
+                    setChats({
+                        "LeftBar.useEffect": (prevChats)=>{
+                            const updatedChats = [
+                                ...prevChats,
+                                newChat
+                            ];
+                            console.log("Updated chats:", updatedChats);
+                            return updatedChats;
+                        }
+                    }["LeftBar.useEffect"]);
+                    setSearchQuery("");
+                    setSearchResults([]);
+                }
+            }["LeftBar.useEffect"]);
+            socket.on("CreateError", {
+                "LeftBar.useEffect": (message)=>{
+                    console.log("Received CreateError:", message);
+                    setDebugInfo(message);
+                }
+            }["LeftBar.useEffect"]);
+            socket.on("UserChats", {
+                "LeftBar.useEffect": (chats)=>{
+                    console.log("Received UserChats:", chats);
+                    setChats(chats);
+                }
+            }["LeftBar.useEffect"]);
+            socket.on("ChatsError", {
+                "LeftBar.useEffect": (message)=>{
+                    console.log("Received ChatsError:", message);
+                    setDebugInfo(message);
+                }
+            }["LeftBar.useEffect"]);
+            socket.on("userNotFound", {
+                "LeftBar.useEffect": (message)=>{
+                    console.log("Received userNotFound:", message);
+                    setSearchResults([]);
+                    setIsSearching(false);
+                }
+            }["LeftBar.useEffect"]);
+            return ({
+                "LeftBar.useEffect": ()=>{
+                    socket.off("userFound");
+                    socket.off("CreateChat");
+                    socket.off("CreateError");
+                    socket.off("UserChats");
+                    socket.off("ChatsError");
+                    socket.off("userNotFound");
+                }
+            })["LeftBar.useEffect"];
         }
     }["LeftBar.useEffect"], [
         socket
@@ -103,19 +187,34 @@ const LeftBar = ()=>{
     const getLatestAvatar = (avatars)=>{
         return avatars.length > 0 ? avatars[avatars.length - 1] : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png$2e$mjs__$7b$__IMAGE__$3d3e$__$225b$project$5d2f$src$2f$app$2f$assets$2f$defaultavatar$2e$png__$28$static__in__ecmascript$2922$__$7d$__$5b$app$2d$client$5d$__$28$structured__image__object$2c$__ecmascript$29$__["default"].src;
     };
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "LeftBar.useEffect": ()=>{
-            const socketInstance = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$socket$2e$io$2d$client$2f$build$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["io"])("http://localhost:5252");
-            setSocket(socketInstance);
-            return ({
-                "LeftBar.useEffect": ()=>{
-                    socketInstance.disconnect();
-                }
-            })["LeftBar.useEffect"];
+    const CreateChat = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "LeftBar.useCallback[CreateChat]": (receiverId)=>{
+            console.log("CreateChat called with:", {
+                senderId,
+                receiverId
+            });
+            if (!socket || !senderId || !receiverId) {
+                console.log("CreateChat failed: Missing socket, senderId, or receiverId");
+                setDebugInfo("Missing socket, senderId, or receiverId");
+                return;
+            }
+            socket.emit("CreateChat", {
+                senderId,
+                receiverId
+            });
+            console.log("Emitted CreateChat:", {
+                senderId,
+                receiverId
+            });
+            setDebugInfo(`Chat creation requested: ${senderId} -> ${receiverId}`);
         }
-    }["LeftBar.useEffect"], []);
+    }["LeftBar.useCallback[CreateChat]"], [
+        socket,
+        senderId
+    ]);
     const searchUsers = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lodash$2f$debounce$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])({
         "LeftBar.useCallback[searchUsers]": (query)=>{
+            console.log("searchUsers called with:", query);
             if (!query.startsWith("@") || query.length < 2 || !socket) {
                 setSearchResults([]);
                 return;
@@ -123,6 +222,7 @@ const LeftBar = ()=>{
             setIsSearching(true);
             const cleanQuery = query.slice(1);
             socket.emit("findUser", cleanQuery);
+            console.log("Emitted findUser:", cleanQuery);
         }
     }["LeftBar.useCallback[searchUsers]"], 300), [
         socket
@@ -171,7 +271,7 @@ const LeftBar = ()=>{
                                     y2: "12"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                    lineNumber: 131,
+                                    lineNumber: 200,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -181,7 +281,7 @@ const LeftBar = ()=>{
                                     y2: "6"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                    lineNumber: 132,
+                                    lineNumber: 201,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -191,18 +291,18 @@ const LeftBar = ()=>{
                                     y2: "18"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                    lineNumber: 133,
+                                    lineNumber: 202,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                            lineNumber: 120,
+                            lineNumber: 189,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 119,
+                        lineNumber: 188,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -226,20 +326,20 @@ const LeftBar = ()=>{
                                         r: "8"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 150,
+                                        lineNumber: 219,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                         d: "m21 21-4.3-4.3"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 151,
+                                        lineNumber: 220,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 138,
+                                lineNumber: 207,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -255,19 +355,19 @@ const LeftBar = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 154,
+                                lineNumber: 223,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 136,
+                        lineNumber: 205,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                lineNumber: 118,
+                lineNumber: 187,
                 columnNumber: 7
             }, this),
             searchQuery && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -277,10 +377,14 @@ const LeftBar = ()=>{
                     children: "Загрузка..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                    lineNumber: 172,
+                    lineNumber: 241,
                     columnNumber: 13
                 }, this) : searchResults.length > 0 ? searchResults.map((user)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "chat flex transition-all w-full h-20 hover:bg-[#c7c7c740] active:bg-[#c7c7c780] items-center",
+                        onClick: ()=>{
+                            console.log("User clicked:", user.id);
+                            CreateChat(user.id);
+                        },
+                        className: "chat flex transition-all w-full h-20 hover:bg-[#c7c7c740] active:bg-[#c7c7c780] items-center cursor-pointer",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 src: getLatestAvatar(user.avatars),
@@ -293,7 +397,7 @@ const LeftBar = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 179,
+                                lineNumber: 252,
                                 columnNumber: 17
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -304,7 +408,7 @@ const LeftBar = ()=>{
                                         children: user.nickname
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 190,
+                                        lineNumber: 263,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -312,31 +416,31 @@ const LeftBar = ()=>{
                                         children: user.link
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 191,
+                                        lineNumber: 264,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 189,
+                                lineNumber: 262,
                                 columnNumber: 17
                             }, this)
                         ]
                     }, `search-${user.id}`, true, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 175,
+                        lineNumber: 244,
                         columnNumber: 15
                     }, this)) : searchQuery.startsWith("@") && searchQuery.length > 1 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "notfoundtext flex justify-center p-4",
                     children: "Ничего не найдено"
                 }, void 0, false, {
                     fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                    lineNumber: 196,
+                    lineNumber: 269,
                     columnNumber: 13
                 }, this) : null
             }, void 0, false, {
                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                lineNumber: 170,
+                lineNumber: 239,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -357,7 +461,7 @@ const LeftBar = ()=>{
                                 className: "avatar max-w-15 rounded-full ml-3 mr-3"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 214,
+                                lineNumber: 287,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -370,12 +474,12 @@ const LeftBar = ()=>{
                                             children: chat.nickname
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                            lineNumber: 223,
+                                            lineNumber: 296,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 222,
+                                        lineNumber: 295,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -385,18 +489,18 @@ const LeftBar = ()=>{
                                             children: chat.last_message
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                            lineNumber: 226,
+                                            lineNumber: 299,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 225,
+                                        lineNumber: 298,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 221,
+                                lineNumber: 294,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -404,10 +508,10 @@ const LeftBar = ()=>{
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "timetext",
-                                        children: chat.time_last_message || ''
+                                        children: new Date(chat.time_last_message || "").toLocaleTimeString()
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 230,
+                                        lineNumber: 303,
                                         columnNumber: 15
                                     }, this),
                                     chat.new_message && chat.new_message > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -415,34 +519,42 @@ const LeftBar = ()=>{
                                         children: chat.new_message
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                        lineNumber: 232,
+                                        lineNumber: 305,
                                         columnNumber: 17
                                     }, this) : null
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                                lineNumber: 229,
+                                lineNumber: 302,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, `chat-${chat.id}`, true, {
                         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                        lineNumber: 210,
+                        lineNumber: 283,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-                lineNumber: 201,
+                lineNumber: 274,
                 columnNumber: 7
+            }, this),
+            debugInfo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "debug-info p-2 text-sm text-gray-500",
+                children: debugInfo
+            }, void 0, false, {
+                fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
+                lineNumber: 313,
+                columnNumber: 21
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/components/leftbar/leftbar.tsx",
-        lineNumber: 117,
+        lineNumber: 186,
         columnNumber: 5
     }, this);
 };
-_s(LeftBar, "FtxOtx73qrx+1XIJ3X1czkhJe6E=");
+_s(LeftBar, "2RmmPSxfxKPHMPiTe/EwP2q9evw=");
 _c = LeftBar;
 const __TURBOPACK__default__export__ = LeftBar;
 var _c;

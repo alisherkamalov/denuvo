@@ -66,6 +66,8 @@
     --spacing: .25rem;
     --text-xs: .75rem;
     --text-xs--line-height: calc(1 / .75);
+    --text-sm: .875rem;
+    --text-sm--line-height: calc(1.25 / .875);
     --text-base: 1rem;
     --text-base--line-height: calc(1.5 / 1);
     --text-xl: 1.25rem;
@@ -998,6 +1000,10 @@
 
   .animate-none {
     animation: none;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
   }
 
   .touch-pinch-zoom {
@@ -1985,6 +1991,11 @@
     line-height: var(--tw-leading, var(--text-base--line-height));
   }
 
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+
   .text-xl {
     font-size: var(--text-xl);
     line-height: var(--tw-leading, var(--text-xl--line-height));
@@ -2131,6 +2142,10 @@
 
   .text-gray-400 {
     color: var(--color-gray-400);
+  }
+
+  .text-gray-500 {
+    color: var(--color-gray-500);
   }
 
   .text-gray-600 {
